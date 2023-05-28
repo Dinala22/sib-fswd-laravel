@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
     <meta name="description" content="" />
     <meta name="author" content="" />
-    <title>Dinamala Market - Happy Shopping</title>
+    <title>Dinamala Shop - One Stop Shopping</title>
     <!-- Favicon-->
     <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
     <!-- Bootstrap icons-->
@@ -29,11 +29,9 @@
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Categories</a>
                         <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                            <li><a class="dropdown-item" href="#!">Cell Phones</a></li>
-                            <li><a class="dropdown-item" href="#!">Wearable</a></li>
-                            <li><a class="dropdown-item" href="#!">Tablet</a></li>
-                            <li><a class="dropdown-item" href="#!">Laptop</a></li>
-                            <li><a class="dropdown-item" href="#!">Accessories</a></li>
+                            @foreach ($categories as $category)
+                                <li><a class="dropdown-item" href="#!">{{ $category->name }}</a></li>
+                            @endforeach
                         </ul>
                     </li>
                 </ul>
@@ -54,20 +52,21 @@
     <!-- Carousel-->
     <div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="carousel">
         <div class="carousel-indicators">
-            <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
-            <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1" aria-label="Slide 2"></button>
-            <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="2" aria-label="Slide 3"></button>
+            @foreach ($sliders as $slider)
+                <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="{{ $loop->iteration - 1 }}" class="{{ $loop->first ? 'active' : '' }}"
+                    aria-current="{{ $loop->first ? 'true' : '' }}" aria-label="Slide 1"></button>
+            @endforeach
         </div>
         <div class="carousel-inner">
-            <div class="carousel-item active" data-bs-interval="3000">
-                <img src="https://picsum.photos/1000/300.webp?random=1" class="d-block w-100" alt="banner1">
-            </div>
-            <div class="carousel-item" data-bs-interval="3000">
-                <img src="https://picsum.photos/1000/300.webp?random=2" class="d-block w-100" alt="banner2">
-            </div>
-            <div class="carousel-item" data-bs-interval="3000">
-                <img src="https://picsum.photos/1000/300.webp?random=3" class="d-block w-100" alt="banner3">
-            </div>
+            @foreach ($sliders as $slider)
+                <div class="carousel-item {{ $loop->first ? 'active' : '' }}" data-bs-interval="3000">
+                    <img src="{{ asset('storage/slider/' . $slider->image) }}" class="d-block w-100" alt="{{ $slider->image }}">
+                    <div class="carousel-caption d-none d-md-block">
+                        <h5>{{ $slider->title }}</h5>
+                        <p>{{ $slider->caption }}</p>
+                    </div>
+                </div>
+            @endforeach
         </div>
         <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
             <span class="carousel-control-prev-icon" aria-hidden="true"></span>
@@ -83,7 +82,7 @@
         <div class="container px-4 px-lg-5 mt-5">
             <div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center">
 
-                @foreach ($products as $product)
+                @forelse ($products as $product)
                     <div class="col mb-5">
                         <div class="card h-100">
                             @if ($product['sale_price'] != 0)
@@ -110,9 +109,9 @@
                                     <!-- Product price-->
                                     @if ($product['sale_price'] != 0)
                                         <span class="text-muted text-decoration-line-through">Rp.{{ number_format($product['price'], 0) }}</span>
-                                        Rp.{{  number_format($product['sale_price'], 0) }}
+                                        Rp.{{ number_format($product['sale_price'], 0) }}
                                     @else
-                                        Rp.{{  number_format($product['price'], 0) }}
+                                        Rp.{{ number_format($product['price'], 0) }}
                                     @endif
                                 </div>
                             </div>
@@ -122,14 +121,18 @@
                             </div>
                         </div>
                     </div>
-                @endforeach
+                @empty
+                    <div class="alert alert-secondary w-100 text-center" role="alert">
+                        <h4>Produk belum tersedia</h4>
+                    </div>
+                @endforelse
             </div>
         </div>
     </section>
     <!-- Footer-->
     <footer class="py-5 bg-dark">
         <div class="container">
-            <p class="m-0 text-center text-white">Copyright &copy; Your Website 2023</p>
+            <p class="m-0 text-center text-white">Copyright &copy; Dinamala Website 2023</p>
         </div>
     </footer>
     <!-- Bootstrap core JS-->
