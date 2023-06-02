@@ -14,6 +14,6 @@ class DashboardController extends Controller
         } else {
             return view('dashboard');
         }
-        
+
     }
 }

@@ -43,7 +43,7 @@
                     </a>
 
                     @auth
-                        <a href="{{ route('landing') }}" class="btn btn-outline-light ms-1">
+                        <a href="{{ route('dashboard') }}" class="btn btn-outline-light ms-1">
                             <i class="bi-person-fill me-1"></i>
                             Dashboard
                         </a>
