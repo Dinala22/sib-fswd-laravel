@@ -13,10 +13,10 @@ class LandingController extends Controller
     {
         // mengambil 8 data produk secara acak
         $products = Product::inRandomOrder(8)->get();
-        
+
         // mengambil data category
         $categories = Category::all();
-        
+
         // mengambil data slider
         $sliders = Slider::all();
 
